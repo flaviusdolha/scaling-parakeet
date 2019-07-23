@@ -6,8 +6,8 @@ const app = express();
 const PORT = process.env.PORT = 3000;
 
 //
-const CLIENT_PUBLIC = path.join(__dirname, '../Client/public');
-const CLIENT_PUBLIC_INDEX_HTML = path.join(__dirname, '../Client/public', 'index.html');
+const CLIENT_PUBLIC = path.join(__dirname, '../Desktop/public');
+const CLIENT_PUBLIC_INDEX_HTML = path.join(__dirname, '../Desktop/public', 'index.html');
 
 // Middlewares
 app.use('/api/posts/', posts);
