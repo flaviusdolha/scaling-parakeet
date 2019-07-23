@@ -11,7 +11,7 @@ Mobile application serving the purpose of the application. Technologies: **JavaS
 
 
 ### Desktop
-Desktop web page, and mainly admin control panel for the application. Technologies: **JavaScript** and **React**.
+Desktop web page, and mainly admin control panel for the application. Technologies: **JavaScript**, **React**, **HTML** and **CSS**.
 
 
 ### Public Server
