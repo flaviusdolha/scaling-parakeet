@@ -6,17 +6,21 @@ We challenge you to do something new.
 
 # Development
 
-#### Client
+### Client
 Mobile application serving the purpose of the application. Technologies: **JavaScript** and **React Native**.
 
-#### Desktop
+
+### Desktop
 Desktop web page, and mainly admin control panel for the application. Technologies: **JavaScript** and **React**.
 
-#### Public Server
+
+### Public Server
 The brain of the application, serving everyday operations. Techonologies: **JavaScript** and **Node**.
 
-#### Private Server
+
+### Private Server
 Helper server for computing power and private related operations. Technologies: **JavaScript**, **Node**, **Python** and **C++**.
 
-#### Database Server
+
+### Database Server
 Holds the entire database of the application. Technologies: **MongoDB**.
