@@ -17,4 +17,4 @@ app.get('/', (request, response) => {
 /*
  * The app listens for the specified PORT bellow.
  */
-app.listen(3000);
+app.listen(3000, () => console.log('Server running...'));
