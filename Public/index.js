@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const posts = require('./routes/posts');
 
 const app = express();
@@ -10,7 +11,7 @@ app.use('/api/posts/', posts);
  * Handles the default URL page.
  */
 app.get('/', (request, response) => {
-    response.send('Hello, world!');
+    response.sendFile(path.join(__dirname, '../Client/public', 'index.html'));
 });
 
 /*
