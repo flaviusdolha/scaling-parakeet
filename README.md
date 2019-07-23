@@ -4,7 +4,7 @@ We just happen to create an app that does this.
 Every day is a brand new fresh start for you.
 We challenge you to do something new.
 
-# Development
+## Development
 
 ### Client
 Mobile application serving the purpose of the application. Technologies: **JavaScript** and **React Native**.
