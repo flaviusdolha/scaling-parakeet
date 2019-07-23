@@ -3,6 +3,7 @@ const path = require('path');
 const posts = require('./routes/posts');
 
 const app = express();
+const PORT = process.env.PORT = 3000;
 
 // Middlewares
 app.use('/api/posts/', posts);
@@ -17,4 +18,4 @@ app.get('/', (request, response) => {
 /*
  * The app listens for the specified PORT bellow.
  */
-app.listen(3000, () => console.log('Server running...'));
+app.listen(PORT, () => console.log('Server running...'));
