@@ -1,5 +1,10 @@
 const express = require('express');
+const posts = require('./routes/posts');
+
 const app = express();
+
+// Middlewares
+app.use('/api/posts/', posts);
 
 /*
  * Handles the default URL page.
