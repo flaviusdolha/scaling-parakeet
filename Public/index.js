@@ -5,9 +5,9 @@ const posts = require('./routes/posts');
 const app = express();
 const PORT = process.env.PORT = 3000;
 
-//
-const CLIENT_PUBLIC = path.join(__dirname, '../Desktop/public');
-const CLIENT_PUBLIC_INDEX_HTML = path.join(__dirname, '../Desktop/public', 'index.html');
+// Routes to specified static files or folders
+const DESKTOP_PUBLIC = path.join(__dirname, '../Desktop/public');
+const DESKTOP_PUBLIC_INDEX_HTML = path.join(__dirname, '../Desktop/public', 'index.html');
 
 // Middlewares
 app.use('/api/posts/', posts);
@@ -16,9 +16,9 @@ app.use('/api/posts/', posts);
  * Handles the default URL page.
  */
 app.get('/', (request, response) => {
-    response.sendFile(CLIENT_PUBLIC_INDEX_HTML);
+    response.sendFile(DESKTOP_PUBLIC_INDEX_HTML);
 });
-app.use('/', express.static(CLIENT_PUBLIC));
+app.use('/', express.static(DESKTOP_PUBLIC));
 
 /*
  * The app listens for the specified PORT bellow.
