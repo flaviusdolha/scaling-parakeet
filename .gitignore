@@ -1,3 +1,5 @@
 Public/node_modules
+Private/node_modules
+
 .DS_Store
 Public/.DS_Store
