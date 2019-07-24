@@ -10,7 +10,9 @@ const router = express.Router();
 const postSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        minlength: 5,
+        maxlength: 255,
     },
     content: {
         type: Object,
@@ -18,17 +20,24 @@ const postSchema = mongoose.Schema({
     },
     author: {
         type: String,
-        required: true
+        required: true,
+        minlength: 5,
+        maxlength: 255,
     },
     creationDate: {
         type: Date,
         required: true,
         default: Date.now
     },
-    publicationDate: Date,
+    publicationDate: {
+        type: Date,
+        unique: true
+    },
     likes: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0,
+        max: 9999
     },
     comments: Object,
     tags: [String]
