@@ -45,7 +45,7 @@ router.post('/', (request, response) => {
     const post = getPostAsObject(request.body);
     const result = validatePost(post);
     if (result.isValid) {
-        savePost(post);
+        savePost(post, response);
     } else {
         response.send(result.error);
     }
@@ -91,10 +91,13 @@ function validatePost(post) {
 }
 
 // Saves the post into the database.
-function savePost(post) {
-    post.save()
-        .then(post => console.log(post))
-        .catch(e => console.log(e.message));
+function savePost(post, response) {
+    try {
+        post.save()
+        response.send(post);
+    } catch (e) {
+        response.send(e.message);
+    }
 }
 
 module.exports = router;
