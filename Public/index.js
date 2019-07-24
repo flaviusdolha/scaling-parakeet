@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 const posts = require('./routes/posts');
 
@@ -9,11 +10,17 @@ const PORT = process.env.PORT = 3000;
 const DESKTOP_PUBLIC = path.join(__dirname, '../Desktop/public');
 const DESKTOP_PUBLIC_INDEX_HTML = path.join(__dirname, '../Desktop/public', 'index.html');
 
+// Connects to the Database Server.
+mongoose.connect('mongodb://localhost/main', { useNewUrlParser: true })
+        .then(() => console.log('Connected to MongoDB...'))
+        .catch(e => console.log(e));
+
 // Middlewares
 app.use('/api/posts/', posts);
+app.use(express.json());
 
 /*
- * Handles the default URL page.
+ * Handles the default URL page. 
  */
 app.get('/', (request, response) => {
     response.sendFile(DESKTOP_PUBLIC_INDEX_HTML);
