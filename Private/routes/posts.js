@@ -13,6 +13,7 @@ const postSchema = mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 255,
+        trim: true
     },
     content: {
         type: Object,
@@ -42,11 +43,20 @@ const postSchema = mongoose.Schema({
     comments: Object,
     tags: [String]
 });
+
+// Sets the property of every update function so that it validates before saving into the database.
+// It does return every time the updated post.
+postSchema.pre('findOneAndUpdate', function (next) {
+    this.options.runValidators = true;
+    this.options.new = true;
+    next();
+});
+
 const Post = new mongoose.model('Post', postSchema);
 
 /*
  * Creates a new post in the database.
- * This is not a public api, only authorized users can acces it.
+ * This is not a public api, only authorized users can access it.
  * 
  * Get the post request -> Transform it into JS Object -> Validate the input -> Save the post into database.
  */
@@ -61,6 +71,26 @@ router.post('/', (request, response) => {
         }
     };
     createPost();
+});
+
+/*
+ * Edits a specified post with the given fields.
+ * This is not a public api, only authorized users can access it.
+ */
+router.put('/:id', (request, response) => {
+    const updatePost = async () => {
+        try {
+            const updatedPost = await Post.findOneAndUpdate({ _id: request.params.id }, request.body)
+            response.send(updatedPost);
+        } catch (e) {
+            if (e.name === 'CastError' && e.path === '_id') {
+                return response.status(404).send({ error: 'Resource with the given id was not found' });
+            }
+            const errors = getErrorMessages(e);
+            response.status(400).send(errors);
+        }
+    };
+    updatePost();
 });
 
 // Returns the object from the JSON request.
@@ -87,7 +117,7 @@ async function validatePost(post) {
             isValid: true,
         }
     } catch (e) {
-        let errors = getErrorMessages(e);
+        const errors = getErrorMessages(e);
         return {
             isValid: false,
             error: errors
@@ -105,11 +135,16 @@ async function savePost(post, response) {
     }
 }
 
-// Recieves an error object, returns an array of human readable error messages.
+// Recieves an error object, returns an array or an object of human readable error messages.
 function getErrorMessages(e) {
     let errors = [];
     for (field in e.errors) {
-        errors.push(e.errors[field].message)
+        errors.push(e.errors[field].message);
+    }
+
+    // If the error is not found in the path above, it is found in the path bellow.
+    if (errors.length === 0) {
+        errors.push(e.message);
     }
     return errors;
 }
