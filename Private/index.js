@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost/main', { useNewUrlParser: true })
 
 // Middlewares
 app.use(express.json());
-app.use('/api/posts/', posts);
+app.use('/api/private/posts/', posts);
 
 /*
  * The app listens for the specified PORT bellow.

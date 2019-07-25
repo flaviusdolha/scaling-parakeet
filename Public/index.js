@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost/main', { useNewUrlParser: true })
 
 // Middlewares
 app.use(express.json());
-app.use('/api/posts/', posts);
+app.use('/api/public/posts/', posts);
 
 /*
  * Handles the default URL page. 
