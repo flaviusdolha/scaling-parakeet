@@ -93,6 +93,24 @@ router.put('/:id', (request, response) => {
     updatePost();
 });
 
+/*
+ * Deletes from the database a specified post.
+ * This is not a public api, only authorized users can access it.
+ */
+router.delete('/:id', (request, response) => {
+    const deletePost = async () => {
+        try {
+            const id = request.params.id;
+            await Post.deleteOne({ _id: id });
+            const responseString = 'Post '.concat(id, ' succesfully deleted from the database.');
+            response.send({ responseString });
+        } catch (e) {
+            response.status(400).send(e);
+        }
+    };
+    deletePost();
+});
+
 // Returns the object from the JSON request.
 function getPostAsObject(requestBody) {
     const { title, content, author, creationDate, publicationDate, likes, comments, tags } = requestBody;
@@ -147,6 +165,15 @@ function getErrorMessages(e) {
         errors.push(e.message);
     }
     return errors;
+}
+
+// Gets an array of strings and returns the final string, concatenating all of them.
+function getConcatenatedString(strings) {
+    let concatenatedString = '';
+    for (let i = 0; i < strings.length; i++) {
+        concatenatedString.concat(strings[i]);
+    }
+    return concatenatedString;
 }
 
 module.exports = router;
