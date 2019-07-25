@@ -51,13 +51,16 @@ const Post = new mongoose.model('Post', postSchema);
  * Get the post request -> Transform it into JS Object -> Validate the input -> Save the post into database.
  */
 router.post('/', (request, response) => {
-    const post = getPostAsObject(request.body);
-    const result = validatePost(post);
-    if (result.isValid) {
-        savePost(post, response);
-    } else {
-        response.send(result.error);
-    }
+    const createPost = async () => {
+        const post = getPostAsObject(request.body);
+        const result = await validatePost(post);
+        if (result.isValid) {
+            savePost(post, response);
+        } else {
+            response.status(400).send(result.error);
+        }
+    };
+    createPost();
 });
 
 // Returns the object from the JSON request.
@@ -77,28 +80,38 @@ function getPostAsObject(requestBody) {
 }
 
 // Validates each input of the post to match the requirements defined in the schema.
-function validatePost(post) {
+async function validatePost(post) {
     try {
-        post.validate();
+        await post.validate();
         return {
             isValid: true,
         }
     } catch (e) {
+        let errors = getErrorMessages(e);
         return {
             isValid: false,
-            error: e.message
+            error: errors
         }
     }
 }
 
 // Saves the post into the database.
-function savePost(post, response) {
+async function savePost(post, response) {
     try {
-        post.save()
+        await post.save();
         response.send(post);
     } catch (e) {
-        response.send(e.message);
+        response.status(400).send(getErrorMessages(e));
     }
+}
+
+// Recieves an error object, returns an array of human readable error messages.
+function getErrorMessages(e) {
+    let errors = [];
+    for (field in e.errors) {
+        errors.push(e.errors[field].message)
+    }
+    return errors;
 }
 
 module.exports = router;
