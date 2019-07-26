@@ -52,6 +52,7 @@ const postSchema = mongoose.Schema({
 postSchema.pre('findOneAndUpdate', function (next) {
     this.options.runValidators = true;
     this.options.new = true;
+    this.options.useFindAndModify = false;
     next();
 });
 

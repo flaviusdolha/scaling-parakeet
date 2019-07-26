@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@scaling-parakeet/database": "^1.0.5",
+    "@scaling-parakeet/database": "^1.0.8",
     "express": "^4.17.1",
     "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.6.6"
