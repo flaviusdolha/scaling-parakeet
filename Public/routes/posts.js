@@ -25,7 +25,7 @@ router.put('/:id', (request, response) => {
             const updatedPost = await Post.findOneAndUpdate({ _id: id }, updates);
             response.send(updatedPost);
         } catch (e) {
-            // The if bellow checks if the error is related to resrouce not found.
+            // The if bellow checks if the error is related to resource not found.
             if (e.name === 'CastError' && e.path === '_id') {
                 return response.status(404).send({ error: 'Resource with the given id was not found.'});
             }

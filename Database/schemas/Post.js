@@ -32,10 +32,16 @@ const postSchema = mongoose.Schema({
         type: Date
     },
     likes: {
-        type: Number,
-        default: 0,
-        min: 0,
-        max: 9999
+        type: Object,
+        count: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 9999
+        },
+        emails: {
+            type: [String]
+        }
     },
     comments: Object,
     tags: [String]
