@@ -1,6 +1,8 @@
 const express = require('express');
-const Post = require('@scaling-parakeet/database');
+const { Post, functions } = require('@scaling-parakeet/database');
 const router = express.Router();
+
+const { getMongooseErrorMessages } = functions;
 
 /*
  * Creates a new post in the database.
@@ -28,13 +30,15 @@ router.post('/', (request, response) => {
 router.put('/:id', (request, response) => {
     const updatePost = async () => {
         try {
-            const updatedPost = await Post.findOneAndUpdate({ _id: request.params.id }, request.body)
+            const id = request.params.id;
+            const updatedPost = await Post.findOneAndUpdate({ _id: id }, request.body)
             response.send(updatedPost);
         } catch (e) {
+            // The if bellow checks if the error is related to resrouce not found.
             if (e.name === 'CastError' && e.path === '_id') {
                 return response.status(404).send({ error: 'Resource with the given id was not found' });
             }
-            const errors = getErrorMessages(e);
+            const errors = getMongooseErrorMessages(e);
             response.status(400).send(errors);
         }
     };
@@ -83,7 +87,7 @@ async function validatePost(post) {
             isValid: true,
         }
     } catch (e) {
-        const errors = getErrorMessages(e);
+        const errors = getMongooseErrorMessages(e);
         return {
             isValid: false,
             error: errors
@@ -97,31 +101,8 @@ async function savePost(post, response) {
         await post.save();
         response.send(post);
     } catch (e) {
-        response.status(400).send(getErrorMessages(e));
+        response.status(400).send(getMongooseErrorMessages(e));
     }
-}
-
-// Receieves an error object, returns an array or an object of human readable error messages.
-function getErrorMessages(e) {
-    let errors = [];
-    for (field in e.errors) {
-        errors.push(e.errors[field].message);
-    }
-
-    // If the error is not found in the path above, it is found in the path bellow.
-    if (errors.length === 0) {
-        errors.push(e.message);
-    }
-    return errors;
-}
-
-// Gets an array of strings and returns the final string, concatenating all of them.
-function getConcatenatedString(strings) {
-    let concatenatedString = '';
-    for (let i = 0; i < strings.length; i++) {
-        concatenatedString.concat(strings[i]);
-    }
-    return concatenatedString;
 }
 
 module.exports = router;
