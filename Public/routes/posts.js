@@ -24,7 +24,7 @@ router.put('/:id', (request, response) => {
 // Processes and updates a post with resource given.
 async function updatePost(request, response) {
     try {
-        const { likes, comments } = request.body
+        const { likes, comments } = request.body;
         const updates = { likes, comments };
         const id = request.params.id;
         const updatedPost = await Post.findOneAndUpdate({ _id: id }, updates);

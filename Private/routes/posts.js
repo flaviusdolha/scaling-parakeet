@@ -35,7 +35,7 @@ router.put('/:id', (request, response) => {
 async function updatePost(request, response) {
     try {
         const id = request.params.id;
-        const updatedPost = await Post.findOneAndUpdate({ _id: id }, request.body)
+        const updatedPost = await Post.findOneAndUpdate({ _id: id }, request.body);
         response.send(updatedPost);
     } catch (e) {
         // The if bellow checks if the error is related to resrouce not found.
