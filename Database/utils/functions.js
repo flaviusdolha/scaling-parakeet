@@ -12,4 +12,14 @@ function getMongooseErrorMessages(e) {
     return errors;
 }
 
-module.exports = { getMongooseErrorMessages };
+// Recieves an array and returns true or false whether it has duplicates or not.
+function checkForDuplicates(array) {
+    const result = array.filter((item, index) => array.indexOf(item) != index);
+    if (result.length >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+module.exports = { getMongooseErrorMessages, checkForDuplicates };

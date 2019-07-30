@@ -1,5 +1,5 @@
 const Post = require('./schemas/Post');
-const functions = require('./src/functions');
+const functions = require('./utils/functions');
 
 module.exports = {
     Post,

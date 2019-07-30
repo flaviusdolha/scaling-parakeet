@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const functions = require('./../utils/functions');
+
+const { checkForDuplicates } = functions;
 
 /*
  * Defines how should likes element of a post be structured.
@@ -55,16 +58,6 @@ const postSchema = mongoose.Schema({
     comments: Object,
     tags: [String]
 });
-
-// Checks if the specified array has duplicates
-function checkForDuplicates(array) {
-    const result = array.filter((item, index) => array.indexOf(item) != index);
-    if (result.length >= 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 // Emails field of likes cannot have the same email multiple times.
 // Emails and counts must have the same number.
