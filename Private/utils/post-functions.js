@@ -1,9 +1,12 @@
-const { Post, functions } = require('@scaling-parakeet/database');
+const { Post, functions, sanitizer } = require('@scaling-parakeet/database');
+
 const { getMongooseErrorMessages } = functions;
+const { sanitizeStringsOfAnObject } = sanitizer;
 
 // Returns the object from the JSON request.
 function getPostAsObject(requestBody) {
-    const { title, content, author, creationDate, publicationDate, likes, comments, tags } = requestBody;
+    const cleanBody = sanitizeStringsOfAnObject(requestBody);
+    const { title, content, author, creationDate, publicationDate, likes, comments, tags } = cleanBody;
     const post = new Post({
         title,
         content,

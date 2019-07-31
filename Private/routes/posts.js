@@ -1,20 +1,23 @@
 const express = require('express');
-const { Post, functions } = require('@scaling-parakeet/database');
-const { getMongooseErrorMessages } = functions;
+const { Post, functions, sanitizer } = require('@scaling-parakeet/database');
 const { getPostAsObject, validatePost, savePost } = require('./../utils/post-functions');
 const router = express.Router();
+
+const { getMongooseErrorMessages } = functions;
+const { sanitizeString, sanitizeObject, sanitizeStringsOfAnObject } = sanitizer;
 
 /*
  * Creates a new post in the database.
  * This is not a public api, only authorized users can access it.
- */
+ */ 
 router.post('/', (request, response) => {
     createPost(request, response);
 });
 
 // Gets the post request -> Transforms it into JS Object -> Validates the input -> Saves the post into database.
 async function createPost(request, response) {
-    const post = getPostAsObject(request.body);
+    const cleanObject = sanitizeObject(request.body)
+    const post = getPostAsObject(cleanObject);
     const result = await validatePost(post);
     if (result.isValid) {
         savePost(post, response);
@@ -34,8 +37,11 @@ router.put('/:id', (request, response) => {
 // Processes and updates a post with resource given.
 async function updatePost(request, response) {
     try {
-        const id = request.params.id;
-        const updatedPost = await Post.findOneAndUpdate({ _id: id }, request.body);
+        const cleanId = sanitizeString(request.params.id);
+        const cleanKeys = sanitizeObject(request.body);
+        const cleanBody = sanitizeStringsOfAnObject(cleanKeys);
+        const id = cleanId;
+        const updatedPost = await Post.findOneAndUpdate({ _id: id }, cleanBody);
         response.send(updatedPost);
     } catch (e) {
         // The if bellow checks if the error is related to resrouce not found.
@@ -58,7 +64,8 @@ router.delete('/:id', (request, response) => {
 // Deletes the specified post.
 async function deletePost(request, response) {
     try {
-        const id = request.params.id;
+        const cleanId = sanitizeString(request.params.id);
+        const id = cleanId;
         await Post.deleteOne({ _id: id });
         const responseString = 'Post '.concat(id, ' succesfully deleted from the database.');
         response.send({ responseString });
