@@ -1,9 +1,9 @@
 const express = require('express');
-const sanitize = require('mongo-sanitize');
-const { Post, functions } = require('@scaling-parakeet/database');
+const { Post, functions, sanitizer } = require('@scaling-parakeet/database');
 const router = express.Router();
 
 const { getMongooseErrorMessages } = functions;
+const { sanitizeString, sanitizeObject } = sanitizer;
 
 /*
  * Gets the current post that is running.
@@ -24,9 +24,14 @@ router.put('/:id', (request, response) => {
 // Processes and updates a post with resource given.
 async function updatePost(request, response) {
     try {
-        const { likes, comments } = request.body;
+        const cleanBody = sanitizeObject(request.body);
+        const { likes, comments } = cleanBody;
         const updates = { likes, comments };
-        const id = request.params.id;
+        for (key in updates) {
+            updates[key] = sanitizeString(updates[key]);
+        }
+        const id = sanitizeString(request.params.id);
+        console.log(id, updates);
         const updatedPost = await Post.findOneAndUpdate({ _id: id }, updates);
         response.send(updatedPost);
     } catch (e) {
