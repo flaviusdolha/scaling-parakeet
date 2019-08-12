@@ -49,6 +49,14 @@ const userSchema = mongoose.Schema({
     },
     devicesTokens: {
         type: [String],
+    },
+    permissionsFlags: {
+        type: [String],
+        default: ['a']
+    },
+    rankTitle: {
+        type: String,
+        default: 'User'
     }
 });
 
