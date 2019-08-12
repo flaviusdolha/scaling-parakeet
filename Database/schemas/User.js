@@ -46,6 +46,9 @@ const userSchema = mongoose.Schema({
     },
     location: {
         type: String,
+    },
+    devicesTokens: {
+        type: [String],
     }
 });
 
