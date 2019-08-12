@@ -9,7 +9,7 @@ const { sanitizeString, sanitizeObject, sanitizeStringsOfAnObject } = sanitizer;
 /*
  * Creates a new post in the database.
  * This is not a public api, only authorized users can access it.
- */ 
+ */
 router.post('/', (request, response) => {
     createPost(request, response);
 });
@@ -44,7 +44,7 @@ async function updatePost(request, response) {
         const updatedPost = await Post.findOneAndUpdate({ _id: id }, cleanBody);
         response.send(updatedPost);
     } catch (e) {
-        // The if bellow checks if the error is related to resrouce not found.
+        // The if bellow checks if the error is related to resource not found.
         if (e.name === 'CastError' && e.path === '_id') {
             return response.status(404).send({ error: 'Resource with the given id was not found' });
         }
