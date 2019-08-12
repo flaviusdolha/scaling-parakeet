@@ -1,6 +1,21 @@
 Public/node_modules
 Private/node_modules
 Database/node_modules
+Desktop/scaling-parakeet-desktop/node_modules
 
 .DS_Store
 Public/.DS_Store
+
+# production
+/build
+
+# misc
+Desktop/scaling-parakeet-desktop/.DS_Store
+Desktop/scaling-parakeet-desktop/.env.local
+Desktop/scaling-parakeet-desktop/.env.development.local
+Desktop/scaling-parakeet-desktop/.env.test.local
+Desktop/scaling-parakeet-desktop/.env.production.local
+
+Desktop/scaling-parakeet-desktop/npm-debug.log*
+Desktop/scaling-parakeet-desktop/yarn-debug.log*
+Desktop/scaling-parakeet-desktop/yarn-error.log*
