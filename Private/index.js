@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const posts = require('./routes/posts');
 
 const app = express();
-const PORT = process.env.PORT = 3000;
+const PORT = process.env.PORT = 3001;
 
 // Connects to the Database Server.
 mongoose.connect('mongodb://localhost/main', { useNewUrlParser: true })

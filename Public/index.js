@@ -4,7 +4,7 @@ const path = require('path');
 const posts = require('./routes/posts');
 
 const app = express();
-const PORT = process.env.PORT = 3000;
+const PORT = process.env.PORT = 3002;
 
 // Routes to specified static files or folders
 const DESKTOP_PUBLIC = path.join(__dirname, '../Desktop/public');
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use('/api/public/posts/', posts);
 
 /*
- * Handles the default URL page. 
+ * Handles the default URL page.
  */
 app.get('/', (request, response) => {
     response.sendFile(DESKTOP_PUBLIC_INDEX_HTML);
