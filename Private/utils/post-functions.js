@@ -16,7 +16,7 @@ function getPostAsObject(requestBody) {
         likes,
         comments,
         tags
-    })
+    });
     return post;
 }
 
