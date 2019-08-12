@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@scaling-parakeet/database": "^1.0.25",
+    "@scaling-parakeet/database": "^1.0.26",
     "express": "^4.17.1",
     "mongoose": "^5.6.9"
   },
